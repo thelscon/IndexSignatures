@@ -44,41 +44,13 @@ interface IFifthTask extends IIndexSignature {
 // interface IVarious {
 //     [index : string | number] : string | number
 // }
-function valueСhecking (obj : /*IVarious*/ { [index : string | number] : string | number }) : string | false {
-    let returnValue : string = '' ;
+function valuesAreNumbers (obj : /*IVarious*/ { [index : string | number] : string | number }) : boolean {
     for (let key in obj) {
-        if (typeof obj[key] === 'number') {
-            if (!returnValue) {
-                returnValue = 'number'
-            }
-            if ( returnValue === 'string' ) {
-                returnValue = '' ;
-                break ;
-            }
-        }
-        else {
-            if (!returnValue) {
-                returnValue = 'string'
-            }
-            if ( returnValue === 'number' ) {
-                returnValue = '' ;
-                break ;
-            }
+        if (typeof obj[key] !== 'number') {
+            return false ;
         }
     }
 
-    if (returnValue) {
-        returnValue = `all property is ${returnValue} type`
-    }
-        
-    if (typeof obj.name === 'string') {
-        returnValue += returnValue ? `\ntype obj.name - string` : `type obj.name - string`
-    }
-        
-    if (typeof obj.age === 'number') {
-        returnValue += returnValue ? `\ntype obj.age - number` : `type obj.age - number`
-    }       
-
-    return returnValue || false;
+    return true ;
 }
-// console.log ( valueСhecking ( { name : 'name' , age : 2 } ) || 'not found' )
+// console.log ( valuesAreNumbers ( { name : 2 , age : 2 } ) || 'not found' )
