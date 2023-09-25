@@ -1,63 +1,39 @@
+// Напишіть функцію, яка отримує об'єкт з індексною сигнатурою і перевіряє, чи відповідають значення певних ключів певним критеріям 
+// (наприклад, чи всі значення є числами).
+// interface IVarious {
+//     [index : string | number] : string | number
+// }
 function valueСhecking(obj) {
     var returnValue = '';
-    var stringValues = null;
-    var numberValues = null;
     for (var key in obj) {
-        // если свойство число
         if (typeof obj[key] === 'number') {
-            // и это первое вхождение
-            if (numberValues === null) {
-                // но уже есть строковое ствойство, тогда все свойства и не строки, и не числа
-                if (stringValues) {
-                    stringValues = false;
-                    break;
-                }
-                // или тогда ок
-                else {
-                    numberValues = true;
-                    stringValues = false;
-                }
+            if (!returnValue) {
+                returnValue = 'number';
             }
-            else {
-                // но уже есть строковое ствойство, которое изменило состояние numberValues, тогда все свойства и не строки, и не числа
-                if (numberValues === false) {
-                    stringValues = false;
-                    break;
-                }
+            if (returnValue === 'string') {
+                returnValue = '';
+                break;
             }
         }
-        // если свойство строка
-        if (typeof obj[key] === 'string') {
-            // и это первое вхождение
-            if (stringValues === null) {
-                // но уже есть числовое ствойство, тогда все свойства и не строки, и не числа
-                if (numberValues) {
-                    numberValues = false;
-                    break;
-                }
-                // или тогда ок
-                else {
-                    stringValues = true;
-                    numberValues = false;
-                }
+        else {
+            if (!returnValue) {
+                returnValue = 'string';
             }
-            else {
-                // но уже есть числовое ствойство, которое изменило состояние stringValues, тогда все свойства и не строки, и не числа
-                if (stringValues === false) {
-                    numberValues = false;
-                    break;
-                }
+            if (returnValue === 'number') {
+                returnValue = '';
+                break;
             }
         }
     }
-    if (stringValues)
-        returnValue = "all property is string type\n";
-    if (numberValues)
-        returnValue = "all property is number type\n";
-    if (typeof obj.name === 'string')
-        returnValue += "type obj.name - string\n";
-    if (typeof obj.age === 'number')
-        returnValue += "type obj.age - number\n";
+    if (returnValue) {
+        returnValue = "all property is ".concat(returnValue, " type");
+    }
+    if (typeof obj.name === 'string') {
+        returnValue += returnValue ? "\ntype obj.name - string" : "type obj.name - string";
+    }
+    if (typeof obj.age === 'number') {
+        returnValue += returnValue ? "\ntype obj.age - number" : "type obj.age - number";
+    }
     return returnValue || false;
 }
-// console.log ( valueСhecking ( { name : 'tst' , age : 2 } ) || 'not found' )
+// console.log ( valueСhecking ( { name : 'name' , age : 2 } ) || 'not found' )
